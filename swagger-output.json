@@ -10,6 +10,13 @@
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "BearerAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+    }
+},
   "paths": {
     "/signup": {
       "post": {
@@ -22,16 +29,16 @@
               "type": "object",
               "properties": {
                 "fullname": {
-                  "example": "any"
+                  "example": "John"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "strong_123"
                 },
                 "image": {
-                  "example": "any"
+                  "example": "MyImg.jpg"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "mail@example.com"
                 }
               }
             }
@@ -46,7 +53,8 @@
     },
     "/signin": {
       "post": {
-        "description": "",
+        "description": "sign in system",
+        
         "parameters": [
           {
             "name": "body",
@@ -55,10 +63,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "ahmed@gamil.com"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "strong_123"
                 }
               }
             }
@@ -72,7 +80,7 @@
       }
     },
     "/changePassword": {
-      "post": {
+      "patch": {
         "description": "",
         "parameters": [
           {
@@ -82,10 +90,10 @@
               "type": "object",
               "properties": {
                 "email": {
-                  "example": "any"
+                  "example": "anahmed@gamil.com"
                 },
                 "password": {
-                  "example": "any"
+                  "example": "strong_123"
                 }
               }
             }
@@ -100,7 +108,12 @@
     },
     "/child": {
       "get": {
-        "description": "",
+        "description": "get all children",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "responses": {
           "200": {
             "description": "OK"
@@ -109,6 +122,30 @@
       },
       "post": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
+      "parameters": [
+        {
+            "name": "body",
+            "in": "body",
+            "description": "Teacher data",
+            "type": "object",
+            "required": true,
+            "example": {
+                "FullName": "Your Name",
+                "Age": 4,
+                "Level": "KG1",
+                "Address": {
+                    "city": "MyCity",
+                    "street": "streetName",
+                    "building": 1
+                }
+            }
+        }
+    ],
         "responses": {
           "201": {
             "description": "Created"
@@ -117,9 +154,14 @@
       },
       "delete": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
-            "name": "body",
+            "name": "id",
             "in": "body",
             "schema": {
               "type": "object",
@@ -138,7 +180,12 @@
         }
       },
       "patch": {
-        "description": "",
+        "description": "Update Child data",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "body",
@@ -168,7 +215,12 @@
     },
     "/child/{id}": {
       "get": {
-        "description": "",
+        "description": "Get child by id",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "id",
@@ -186,7 +238,13 @@
     },
     "/class": {
       "get": {
-        "description": "",
+        "description": "Retrieve a list of all classes",
+        
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "responses": {
           "200": {
             "description": "OK"
@@ -194,7 +252,29 @@
         }
       },
       "post": {
-        "description": "",
+        "description": "Add new class",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
+      "parameters": [
+        {
+            "name": "body",
+            "in": "body",
+            "description": "Teacher data",
+            "type": "object",
+            "required": true,
+            "example": {
+                "name": "Your Name",
+                "Supervisor": "65d9b843d442a7b023994aa3",
+                "ChildrenInClass": [
+                    "0001",
+                    "0002"
+                ]
+            }
+        }
+    ],
         "responses": {
           "201": {
             "description": "Created"
@@ -202,7 +282,12 @@
         }
       },
       "delete": {
-        "description": "",
+        "description": "Delete class",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "body",
@@ -225,9 +310,14 @@
       },
       "patch": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
-            "name": "body",
+            "name": "id",
             "in": "body",
             "schema": {
               "type": "object",
@@ -255,6 +345,11 @@
     "/class/{id}": {
       "get": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "id",
@@ -273,6 +368,11 @@
     "/class/child/{id}": {
       "get": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "id",
@@ -291,6 +391,11 @@
     "/class/teacher/{id}": {
       "get": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "id",
@@ -309,6 +414,11 @@
     "/teacher": {
       "get": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "responses": {
           "200": {
             "description": "OK"
@@ -317,6 +427,11 @@
       },
       "post": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "body",
@@ -345,6 +460,11 @@
       },
       "delete": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "body",
@@ -367,6 +487,11 @@
       },
       "patch": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "body",
@@ -397,6 +522,11 @@
     "/teacher/{id}": {
       "get": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "parameters": [
           {
             "name": "id",
@@ -415,6 +545,11 @@
     "/teacher/supervisor": {
       "get": {
         "description": "",
+        "security": [
+          {
+              "BearerAuth": []
+          }
+      ],
         "responses": {
           "200": {
             "description": "OK"
